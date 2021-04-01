@@ -29,7 +29,7 @@ def get_titles_from_search_results(filename):
 
     return titles
 
-'''
+
 def get_search_links():
     """
     Write a function that creates a BeautifulSoup object after retrieving content from
@@ -44,9 +44,29 @@ def get_search_links():
 
     """
 
-    pass
+    url = "https://www.goodreads.com/search?q=fantasy&qid=NwUsLiA2Nc"
+
+    base = "https://www.goodreads.com"
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+
+    links = []
+
+    #heads = soup.find_all('tr', itemtype="http://schema.org/Book")
+        
+    titles = soup.find_all('span', itemprop="name", role="heading")
+
+    for title in titles:
+        addon = title.parent['href']
+        templink = base + addon
+        links.append(templink)
+
+    links = links[:10]
+
+    return links
 
 
+'''
 def get_book_summary(book_url):
     """
     Write a function that creates a BeautifulSoup object that extracts book
@@ -131,17 +151,20 @@ class TestCases(unittest.TestCase):
         # check that the last title is correct (open search_results.htm and find it)
         self.assertEqual(titles[-1][0], "Harry Potter: The Prequel (Harry Potter, #0.5)")
         self.assertEqual(titles[-1][1], 'J.K. Rowling')
-'''
+
     def test_get_search_links(self):
+
+        links = get_search_links()
         # check that TestCases.search_urls is a list
-
+        self.assertIs(type(links), list)
         # check that the length of TestCases.search_urls is correct (10 URLs)
-
-
+        self.assertEqual(len(links), 10)
         # check that each URL in the TestCases.search_urls is a string
+        for link in links:
+            self.assertIs(type(link), str)
         # check that each URL contains the correct url for Goodreads.com followed by /book/show/
-        pass
-
+            self.assertIn('https://www.goodreads.com/', link)
+'''
     def test_get_book_summary(self):
         # create a local variable – summaries – a list containing the results from get_book_summary()
         # for each URL in TestCases.search_urls (should be a list of tuples)
