@@ -200,11 +200,7 @@ class TestCases(unittest.TestCase):
         # create a local variable – summaries – a list containing the results from get_book_summary()
         # for each URL in TestCases.search_urls (should be a list of tuples)
         summaries = []
-        '''TEMPORARY MAKE SURE TO REMOVE THIS OMGOMGOMGOMGOMGOMGOMG'''
-        
-        return False
 
-        '''TEMPORARY MAKE SURE TO REMOVE THIS OMGOMGOMGOMGOMGOMGOMG'''
         for url in self.search_urls:
             summaries.append(get_book_summary(url))
         
