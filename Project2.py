@@ -125,7 +125,7 @@ def summarize_best_books(filepath):
 
     return summs
 
-'''
+
 def write_csv(data, filename):
     """
     Write a function that takes in a list of tuples (called data, i.e. the
@@ -146,9 +146,12 @@ def write_csv(data, filename):
 
     This function should not return anything.
     """
-    pass
+    with open(filename, 'w', encoding="utf8") as hand:
+        hand.write("Book Title, Author Name")
+        for pair in data:
+            hand.write("\n" + pair[0] + ", " + pair[1])
 
-
+'''
 def extra_credit(filepath):
     """
     EXTRA CREDIT
@@ -236,24 +239,25 @@ class TestCases(unittest.TestCase):
         self.assertEqual(summaries[0], ('Fiction', "The Midnight Library", 'https://www.goodreads.com/choiceawards/best-fiction-books-2020'))
         # check that the last tuple is made up of the following 3 strings: 'Picture Books', 'Antiracist Baby', 'https://www.goodreads.com/choiceawards/best-picture-books-2020'
         self.assertEqual(summaries[-1], ('Picture Books', 'Antiracist Baby', 'https://www.goodreads.com/choiceawards/best-picture-books-2020'))
-'''
+
     def test_write_csv(self):
         # call get_titles_from_search_results on search_results.htm and save the result to a variable
-
+        titles = get_titles_from_search_results('search_results.htm')
         # call write csv on the variable you saved and 'test.csv'
-
+        write_csv(titles, 'test.csv')
         # read in the csv that you wrote (create a variable csv_lines - a list containing all the lines in the csv you just wrote to above)
-
+        hand = open("test.csv", 'r')
+        lines = [i.strip() for i in hand.readlines()]
 
         # check that there are 21 lines in the csv
-
+        self.assertEqual(len(lines), 21)
         # check that the header row is correct
-
+        self.assertEqual(lines[0], "Book Title, Author Name")
         # check that the next row is 'Harry Potter and the Deathly Hallows (Harry Potter, #7)', 'J.K. Rowling'
-
+        self.assertEqual(lines[1], "Harry Potter and the Deathly Hallows (Harry Potter, #7), J.K. Rowling")
         # check that the last row is 'Harry Potter: The Prequel (Harry Potter, #0.5)', 'J.K. Rowling'
-        pass
-'''
+        self.assertEqual(lines[-1], "Harry Potter: The Prequel (Harry Potter, #0.5), J.K. Rowling")
+        hand.close()
 
 if __name__ == '__main__':
     #print(extra_credit("extra_credit.htm"))
