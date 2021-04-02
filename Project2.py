@@ -151,7 +151,7 @@ def write_csv(data, filename):
         for pair in data:
             hand.write("\n" + pair[0] + ", " + pair[1])
 
-'''
+
 def extra_credit(filepath):
     """
     EXTRA CREDIT
@@ -159,8 +159,18 @@ def extra_credit(filepath):
     Please see the instructions document for more information on how to complete this function.
     You do not have to write test cases for this function.
     """
-    pass
-'''
+    with open(filepath, "r", encoding="utf8") as hand:
+        soup = BeautifulSoup(hand, 'html.parser')
+        root = soup.find('span', id="freeText4791443123668479528", style='')
+        
+        text = root.text
+
+        reg = r"\b(?:[A-Z]\w{2,}) (?:[A-Z]\w+)(?: (?:[A-Z]\w*))*"
+
+        ents = [i.strip() for i in re.findall(reg, text)]
+
+        return ents
+
 class TestCases(unittest.TestCase):
 
     # call get_search_links() and save it to a static variable: search_urls
@@ -256,7 +266,7 @@ class TestCases(unittest.TestCase):
         hand.close()
 
 if __name__ == '__main__':
-    #print(extra_credit("extra_credit.htm"))
+    print(extra_credit("extra_credit.htm"))
     unittest.main(exit = False, verbosity=2)
 
 
